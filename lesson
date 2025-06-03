@@ -1,0 +1,62 @@
+handle click event (button) 
+#lesson try differnt ones and inline event handle
+
+
+usestate to change the state of the component {
+    number = number + 1;
+    number += 1;
+}
+number and setnumber to change the state of the component 
+set number to change the state of the component
+read the state of the component
+update the state of the component
+
+forms and events {
+    onchange and event.target.value
+}
+
+
+
+
+
+week 6 lesson by josh 
+1. Talk about the crud 
+2. talk about the built in functions (map, filter, reduce)
+people.map((student) =>{
+    return
+})
+
+const newCon = people.map((student) =>{
+    return student + " is a student"
+})
+
+b. filter usinmg if statement
+3. creating 3 component but explain first 
+import into app js form and list component
+import item into list component
+4. create the form component
+4. talk about how data flows from parent to child
+5. create user arrays in parent
+6. create the usestate in the parent component and add few users
+7. create a function to add user to the array by the form
+const addUser = (newuser) =>{
+    setUsers([...users, newuser])
+}
+8. pass the function to the child component <Form addnew={addUser}/>
+9. on submit event in the form component call the function let say let newuser = {name, age, email}
+props.addnew(newuser) and name("") and age("") and email("")
+10. test by adding user to the array and console log the array in parent component
+11. install uuid to generate unique id
+12. list component in list props.users.map((user) =>{
+    return <Item details={user} />
+
+13. in item component, <p>{props.details.name}</p>
+
+
+edit and delete 3rd week 
+1. installation ::::yarn add @headlessui/react @heroicons/react
+yarn add -D tailwindcss postcss autoprefixer
+
+
+
+
