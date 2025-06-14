@@ -1,20 +1,15 @@
-import React from 'react';
-import { useState, useEffect } from 'react'; // Import useState and useEffect for state and side effects
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'; // Import Headless UI components for dialog
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'; // Import warning icon
+import { useState } from 'react'; 
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'; 
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'; 
 
-// Item component displays user details and handles editing/deleting
-const Item = (props) => {
-  // State to control dialog visibility
+
+const Dialog = () => {
+ 
   const [open, setOpen] = useState(false);
-  // State to manage form input for name, pre-filled with current user data
-  const [name, setName] = useState(props.details.name);
-  // State to manage form input for email, pre-filled with current user data
-  const [email, setEmail] = useState(props.details.email);
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
 
-  // Pre-fill form with current user data when component mounts or details change
-
-  // Handle name input changes
+   // Handle name input changes
   const handleName = (event) => {
     setName(event.target.value);
   };
@@ -24,62 +19,8 @@ const Item = (props) => {
     setEmail(event.target.value);
   };
 
-  // Handle form submission to edit user details
-const HandleEdit = ()=>{
- let edit ={name:name,email:email}
- let newDetails={...props.details,...edit}
-
-  props.editUser(props.details.id,newDetails)
-
-  setOpen(false)
-}
-
-
-  // Handle delete button click
-
-
-  // Open the edit dialog
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  return (
-    <div className="flex items-center justify-between gap-4 p-5 mb-4 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
-  {/* Left Section: Avatar + Name/Email */}
-  <div className="flex items-center gap-4">
-    {/* Initial circle avatar */}
-    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 font-bold text-lg uppercase">
-      {props.details.name.charAt(0)}
-    </div>
-
-    {/* Name and Email */}
-    <div>
-      <h3 className="text-base font-semibold text-gray-900">{props.details.name}</h3>
-      <p className="text-sm text-gray-500">{props.details.email}</p>
-    </div>
-  </div>
-
-  {/* Right Section: Action Buttons */}
-  <div className="flex gap-2">
-    <button
-      onClick={handleOpen}
-      className="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-100 rounded-lg hover:bg-indigo-50 transition"
-    >
-      Edit
-    </button>
-    <button
-      onClick={() => props.deleteUser(props.details.id)}
-      className="inline-flex items-center px-4 py-2 text-sm font-medium text-red-600 border border-red-100 rounded-lg hover:bg-red-50 transition"
-    >
-      Delete
-    </button>
-  </div>
-
-
-
-      {/* Dialog for editing user details */}
       
-
+        {/* Dialog for editing user details */}
       <Dialog open={open} onClose={() => setOpen(false)} className="relative z-10">
         <DialogBackdrop
           className="fixed inset-0 bg-gray-500/75 transition-opacity data-[state=closed]:opacity-0 data-[state=open]:opacity-100"
@@ -125,7 +66,7 @@ const HandleEdit = ()=>{
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  onClick={HandleEdit}
+                 onClick={() => setOpen(false)}
                   className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
                 >
                   Save Changes
@@ -142,8 +83,6 @@ const HandleEdit = ()=>{
           </div>
         </div>
       </Dialog>
-    </div>
-  );
-};
 
-export default Item;
+      }
+export default Dialog;
