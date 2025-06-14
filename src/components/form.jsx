@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 
 export default function Form(props) {
@@ -24,7 +25,8 @@ const handleSubmit = (event)=>{
  
   let newUser = {
     name: name,
-    email: email
+    email: email,
+    id: uuidv4()
   }
  
   props.addUser(newUser)

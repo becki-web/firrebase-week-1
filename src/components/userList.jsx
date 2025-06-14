@@ -7,13 +7,12 @@ const List = (props) => {
     // Container div for rendering the list of users
     <div>
       {/* Map through usersList array to render an Item component for each user */}
-      {props.usersList.map((user, index) => (
+      {props.usersList.map((user) => (
         <Item
-          key={index}
-          index={index} // Pass index for edit/delete operations
+          key={user.id}
           details={user}
-          editUser={props.editUser} // Pass editUser function
-          deleteUser={props.deleteUser} // Pass deleteUser function
+          editUser={props.editedUser}
+          deleteUser={props.deletedUser} // Pass deleteUser function
         />
       ))}
     </div>
