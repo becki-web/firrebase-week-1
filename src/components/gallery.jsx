@@ -4,6 +4,8 @@ import image2 from '../assets/pizza2.jpg'
 import image3 from '../assets/pizza3.jpg'
 import image4 from '../assets/pizza4.jpg'
 
+const name = "joshua"
+
 const Gallery = () => {
   return (
     <div>
@@ -15,7 +17,7 @@ const Gallery = () => {
       <div class="bg-white rounded-lg shadow-lg overflow-hidden transition hover:scale-105 ease-in-out duration-300 ">
         <img src={image1} alt="Margherita Pizza" class="w-full h-48 object-cover" />
         <div class="p-4">
-          <h3 class="text-xl font-bold text-gray-800 mb-2">Margherita Pizza</h3>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Margherita Pizza{name}</h3>
           <p class="text-gray-600">A classic pizza with fresh tomatoes, mozzarella, basil, and a drizzle of olive oil.</p>
         </div>
       </div>

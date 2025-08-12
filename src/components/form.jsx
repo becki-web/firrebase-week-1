@@ -1,9 +1,13 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import useUsersStore from '../store/useUsersStore';
 
 
-export default function Form(props) {
+export default function Form() {
+const {addNewUser,users} = useUsersStore()
+
+
 const [name,setName] = useState("")
 const [email,setEmail] =  useState('')
 // const [message,setMessage] = useState("")
@@ -16,6 +20,10 @@ const handleEmail = (event)=>{
   setEmail(event.target.value)
 }
 
+
+useEffect(() => {
+  console.log("🧾 Current users:", users);
+}, [users]);
 // const handleMessage = (event)=>{
 //   setMessage(event.target.value)
 // }
@@ -26,10 +34,11 @@ const handleSubmit = (event)=>{
   let newUser = {
     name: name,
     email: email,
-    id: uuidv4()
   }
  
-  props.addUser(newUser)
+  addNewUser(newUser); 
+    setName('');
+    setEmail('');
  
 };
 
@@ -78,6 +87,8 @@ const handleSubmit = (event)=>{
           Submit
         </button>
       </form>
+
+      
     </div>
   );
 }

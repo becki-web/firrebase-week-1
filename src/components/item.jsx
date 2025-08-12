@@ -1,95 +1,66 @@
-import React from 'react';
-import { useState, useEffect } from 'react'; // Import useState and useEffect for state and side effects
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'; // Import Headless UI components for dialog
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'; // Import warning icon
+import React, { useState, useEffect } from 'react';
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import useUsersStore from '@/store/useUsersStore';
 
-// Item component displays user details and handles editing/deleting
-const Item = (props) => {
-  // State to control dialog visibility
+const Item = ({ user }) => {
+  const editUser = useUsersStore((state) => state.editUser);
+  const deleteUser = useUsersStore((state) => state.deleteUser);
+
   const [open, setOpen] = useState(false);
-  // State to manage form input for name, pre-filled with current user data
-  const [name, setName] = useState(props.details.name);
-  // State to manage form input for email, pre-filled with current user data
-  const [email, setEmail] = useState(props.details.email);
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
 
-  // Pre-fill form with current user data when component mounts or details change
+  // Update local state if the user prop changes
+  useEffect(() => {
+    setName(user.name);
+    setEmail(user.email);
+  }, [user]);
 
-  // Handle name input changes
-  const handleName = (event) => {
-    setName(event.target.value);
+  const handleEdit = () => {
+    const updatedUser = { ...user, name, email };
+    editUser(user.id, updatedUser);
+    setOpen(false);
   };
 
-  // Handle email input changes
-  const handleEmail = (event) => {
-    setEmail(event.target.value);
-  };
-
-  // Handle form submission to edit user details
-const HandleEdit = ()=>{
- let edit ={name:name,email:email}
- let newDetails={...props.details,...edit}
-
-  props.editUser(props.details.id,newDetails)
-
-  setOpen(false)
-}
-
-
-  // Handle delete button click
-
-
-  // Open the edit dialog
   const handleOpen = () => {
     setOpen(true);
   };
 
   return (
     <div className="flex items-center justify-between gap-4 p-5 mb-4 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
-  {/* Left Section: Avatar + Name/Email */}
-  <div className="flex items-center gap-4">
-    {/* Initial circle avatar */}
-    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 font-bold text-lg uppercase">
-      {props.details.name.charAt(0)}
-    </div>
+      <div className="flex items-center gap-4">
+        {/* Avatar circle example: first letter of name */}
+        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 font-bold text-lg uppercase">
+          {user.name.charAt(0)}
+        </div>
 
-    {/* Name and Email */}
-    <div>
-      <h3 className="text-base font-semibold text-gray-900">{props.details.name}</h3>
-      <p className="text-sm text-gray-500">{props.details.email}</p>
-    </div>
-  </div>
+        <div>
+          <h3 className="text-base font-semibold text-gray-900">{user.name}</h3>
+          <p className="text-sm text-gray-500">{user.email}</p>
+        </div>
+      </div>
 
-  {/* Right Section: Action Buttons */}
-  <div className="flex gap-2">
-    <button
-      onClick={handleOpen}
-      className="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-100 rounded-lg hover:bg-indigo-50 transition"
-    >
-      Edit
-    </button>
-    <button
-      onClick={() => props.deleteUser(props.details.id)}
-      className="inline-flex items-center px-4 py-2 text-sm font-medium text-red-600 border border-red-100 rounded-lg hover:bg-red-50 transition"
-    >
-      Delete
-    </button>
-  </div>
-
-
-
-      {/* Dialog for editing user details */}
-      
+      <div className="flex gap-2">
+        <button
+          onClick={handleOpen}
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-100 rounded-lg hover:bg-indigo-50 transition"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => deleteUser(user.id)}
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-red-600 border border-red-100 rounded-lg hover:bg-red-50 transition"
+        >
+          Delete
+        </button>
+      </div>
 
       <Dialog open={open} onClose={() => setOpen(false)} className="relative z-10">
-        <DialogBackdrop
-          className="fixed inset-0 bg-gray-500/75 transition-opacity data-[state=closed]:opacity-0 data-[state=open]:opacity-100"
-        />
-
+        <DialogBackdrop className="fixed inset-0 bg-gray-500/75 transition-opacity" />
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <DialogPanel
-              className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[state=closed]:translate-y-4 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 sm:my-8 sm:w-full sm:max-w-lg"
-            >
+            <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                   <div className="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -105,7 +76,7 @@ const HandleEdit = ()=>{
                         <input
                           type="text"
                           value={name}
-                          onChange={handleName}
+                          onChange={(e) => setName(e.target.value)}
                           className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
                         />
                       </div>
@@ -114,7 +85,7 @@ const HandleEdit = ()=>{
                         <input
                           type="email"
                           value={email}
-                          onChange={handleEmail}
+                          onChange={(e) => setEmail(e.target.value)}
                           className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-2 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
                         />
                       </div>
@@ -125,15 +96,15 @@ const HandleEdit = ()=>{
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  onClick={HandleEdit}
-                  className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
+                  onClick={handleEdit}
+                  className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-500 sm:ml-3 sm:w-auto"
                 >
                   Save Changes
                 </button>
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
                 >
                   Cancel
                 </button>

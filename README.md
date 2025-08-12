@@ -125,6 +125,14 @@ Edit
 And the rest (id, role, etc.) might get lost — or overwritten by undefined.
 
 ## How to delete a user from an array
+
+The condition n !== 3 means:“Keep the number if it is not equal to 3.”
+
+let newArray = [1, 2, 3, 4, 5].filter((n) => n !== 3);
+
+can be read as:
+“Create a new array that contains all the numbers from [1, 2, 3, 4, 5] except the number 3.”
+
               delete function i parent 
 The .filter() method creates a new array that includes only the elements (users) that meet a certain condition.
 
