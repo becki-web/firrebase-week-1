@@ -1,26 +1,40 @@
 
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
+import {db} from "@/Services/firebaseConfig";
+import {collection,addDoc,deleteDoc, doc,getDoc, updateDoc} from 'firebase/firestore';
 
 
-
- const useUsersStore= create((set)=>({
+ const useUsersStore= create((set, get)=>({
     //initial state
    users:[
-       { name: "John", email: "john@gmail.com", id: uuidv4() },
-        { name: "Lois", email: "Lois@gmail.com" , id : uuidv4() },
-        { name: "Peter", email: "Peter@gmail.com", id: uuidv4() },
+      //  { name: "John", email: "john@gmail.com", id: uuidv4() },
+      //   { name: "Lois", email: "Lois@gmail.com" , id : uuidv4() },
+      //   { name: "Peter", email: "Peter@gmail.com", id: uuidv4() },
    ],
+     //fetching Users from Firestore
+   fetchUsers: async ()=>{
+    const snapshots = await getDocs(collection(db,'users'))
+    const userData = snapshot.doc.map((docSnap)=>({
+      id:docSnap.id, ...docSnap.data()
+
+    }));
+
+    set({users:usersData})
+   }
 
 
 
 
 
 //adding new user
-   addNewUser:(newUser)=>
-    set((state)=>({
-        users:[...state.users,{...newUser,id:uuidv4()}]
-    })),
+   addNewUser:async(newUser)=> {
+    const docRef = await addDoc(collection(db ,'users'), newUser)
+    set({users:[...get().users, {id:docRef.id, ...newUser}]})
+   },
+
+
+  
 
 
 
@@ -40,7 +54,7 @@ editUser: (userId,newDetails)=>
 //deleting users
 deleteUser: (userId) =>
     set((state) => ({
-      users: state.users.filter((user) => user.id !== userId),
+      users: state.users.filter((user) => user.id !== userId)
     })),
 
 
