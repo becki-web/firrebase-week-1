@@ -22,7 +22,7 @@ const handleEmail = (event)=>{
 
 
 useEffect(() => {
-  console.log("🧾 Current users:", users);
+  console.log("Current users:", users);
 }, [users]);
 // const handleMessage = (event)=>{
 //   setMessage(event.target.value)
