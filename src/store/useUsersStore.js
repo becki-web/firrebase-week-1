@@ -6,7 +6,7 @@ const useUsersStore = create((set, get) => ({
   // Initial state
   users: [],
 
-  // ✅ Fetch users (only fetch users that are NOT deleted)
+  // Fetch users (only fetch users that are NOT deleted)
   fetchUsers: async () => {
     try {
       const q = query(collection(db, 'users'), where("deleted", "==", false));
@@ -22,7 +22,7 @@ const useUsersStore = create((set, get) => ({
     }
   },
 
-  // ✅ Add new user with deleted = false by default
+  //  Add new user with deleted = false by default
   addNewUser: async (newUser) => {
     try {
       const docRef = await addDoc(collection(db, 'users'), {
@@ -38,7 +38,7 @@ const useUsersStore = create((set, get) => ({
     }
   },
 
-  // ✅ Edit user and update Firestore + UI
+  //  Edit user and update Firestore 
   editUser: async (userId, newDetails) => {
     try {
       await updateDoc(doc(db, 'users', userId), newDetails);
@@ -52,7 +52,7 @@ const useUsersStore = create((set, get) => ({
     }
   },
 
-  // ✅ Soft delete user: hide from UI but keep in Firestore
+  
   deleteUser: async (userId) => {
     try {
       // Instead of removing the document, we mark it as deleted
