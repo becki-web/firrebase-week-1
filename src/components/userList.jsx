@@ -4,11 +4,11 @@ import useUsersStore from '@/store/useUsersStore';
 
 const List = () => {
   const users = useUsersStore((state) => state.users);
-  const fetchUsers = useUserStore((state)=>state.fetchUsers);
-  useEffect(()=>{
-    fetchUsers()
+  const fetchUsers = useUsersStore((state) => state.fetchUsers);
 
-  }, [fetchUsers])
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
   return (
     <div>
